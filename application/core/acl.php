@@ -4,7 +4,7 @@
  * session_start(); has to already have been called
  */
 
-class ACL {
+class Acl {
     
     public $perms = array();
     public $uid = 0;
@@ -12,10 +12,10 @@ class ACL {
     
     public function __construct($uid = '') {
         if ($uid != '') {
-            $this->uid = intval($uid);
+            $this->uid = $uid;
         }
         else {
-            $this->uid = $_SESSION['uid'];
+            $this->uid = Session::get('uid');
         }
         
         $this->usergroups = $this->getUsergroups('ids');
@@ -32,7 +32,7 @@ class ACL {
     
     private function getPermKeyFromID($pid) {
         $sql = "SELECT permKey FROM permissions WHERE id = :pid LIMIT 1";
-        $query = DatabaseFactory::getFactory()->getConnection()->prepare($sql)->execute(array(':pid' => intval($pid)));
+        $query = DatabaseFactory::getFactory()->getConnection()->prepare($sql)->execute(array(':pid' => $pid));
         
         $row = $query->fetch(PDO::FETCH_ASSOC);
         
@@ -41,7 +41,7 @@ class ACL {
     
     private function getPermNameFromID($pid) {
         $sql = "SELECT permName FROM permissions WHERE id = :pid LIMIT 1";
-        $query = DatabaseFactory::getFactory()->getConnection()->prepare($sql)->execute(array(':pid' => intval($pid)));
+        $query = DatabaseFactory::getFactory()->getConnection()->prepare($sql)->execute(array(':pid' => $pid));
         
         $row = $query->fetch(PDO::FETCH_ASSOC);
         
@@ -50,7 +50,7 @@ class ACL {
     
     private function getUsergroupNameFromID($gid) {
         $sql = "SELECT roleName FROM roles WHERE id = :gid";
-        $query = DatabaseFactory::getFactory()->getConnection()->prepare($sql)->execute(array(':gid' => intval($gid)));
+        $query = DatabaseFactory::getFactory()->getConnection()->prepare($sql)->execute(array(':gid' => $gid));
         
         $row = $query->fetch(PDO::FETCH_ASSOC);
         
@@ -59,7 +59,7 @@ class ACL {
     
     private function getUserRoles() {
         $sql = "SELECT * FROM user_roles WHERE ID = :uid";
-        $query = DatabaseFactory::getFactory()->getConnection()->prepare($sql)->execute(array(':uid' => intval($this->uid)));
+        $query = DatabaseFactory::getFactory()->getConnection()->prepare($sql)->execute(array(':uid' => $this->uid));
         
         $resp = array();
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -72,7 +72,7 @@ class ACL {
     public function getAllRoles($format = 'ids') {
         $format = strtolower($format);
         $sql = "SELECT * FROM roles ORDER BY roleName ASC";
-        $query = DatabaseFactory::getFactory()->getConnection()->prepare($sql)->execute(null);
+        $query = DatabaseFactory::getFactory()->getConnection()->prepare($sql)->execute();
         
         $resp = array();
         
@@ -91,7 +91,7 @@ class ACL {
     public function getAllPerms($format = 'ids') {
         $format = strtolower($format);
         $sql = "SELECT * FROM permissions ORDER BY permName ASC";
-        $query = DatabaseFactory::getFactory()->getConnection()->prepare($sql)->execute(null);
+        $query = DatabaseFactory::getFactory()->getConnection()->prepare($sql)->execute();
         
         $resp = array();
         

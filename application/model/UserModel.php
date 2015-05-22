@@ -19,7 +19,7 @@ class UserModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT user_id, user_name, user_email, user_active, user_has_avatar FROM users";
+        $sql = "SELECT user_id, user_name, user_title, user_first_name, user_last_name, user_email, user_active, user_has_avatar FROM users";
         $query = $database->prepare($sql);
         $query->execute();
 
@@ -28,11 +28,14 @@ class UserModel
         foreach ($query->fetchAll() as $user) {
 			
 			// all elements of array passed to self::XSSFilter for XSS sanitation.
-			array_walk_recursive($user, 'self::XSSFilter');
+			@array_walk_recursive($user, 'self::XSSFilter');
 			
             $all_users_profiles[$user->user_id] = new stdClass();
             $all_users_profiles[$user->user_id]->user_id = $user->user_id;
             $all_users_profiles[$user->user_id]->user_name = $user->user_name;
+            $all_users_profiles[$user->user_id]->user_title = $user->user_title;
+            $all_users_profiles[$user->user_id]->user_first_name = $user->user_first_name;
+            $all_users_profiles[$user->user_id]->user_last_name = $user->user_last_name;
             $all_users_profiles[$user->user_id]->user_email = $user->user_email;
             $all_users_profiles[$user->user_id]->user_active = $user->user_active;
             $all_users_profiles[$user->user_id]->user_avatar_link = (Config::get('USE_GRAVATAR') ? AvatarModel::getGravatarLinkByEmail($user->user_email) : AvatarModel::getPublicAvatarFilePathOfUser($user->user_has_avatar, $user->user_id));
@@ -50,7 +53,7 @@ class UserModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT user_id, user_name, user_email, user_active, user_has_avatar
+        $sql = "SELECT user_id, user_name, user_title, user_first_name, user_last_name, user_email, user_active, user_has_avatar
                 FROM users WHERE user_id = :user_id LIMIT 1";
         $query = $database->prepare($sql);
         $query->execute(array(':user_id' => $user_id));
@@ -68,7 +71,7 @@ class UserModel
         }
 		
 		// all elements of array passed to self::XSSFilter for XSS sanitation.
-		array_walk_recursive($user, 'self::XSSFilter');
+		@array_walk_recursive($user, 'self::XSSFilter');
 
         return $user;
     }
@@ -91,7 +94,7 @@ class UserModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("SELECT user_id, user_name, user_email FROM users
+        $query = $database->prepare("SELECT user_id, user_name, user_title, user_first_name, user_last_name, user_email FROM users
                                      WHERE (user_name = :user_name_or_email OR user_email = :user_name_or_email)
                                            AND user_provider_type = :provider_type LIMIT 1");
         $query->execute(array(':user_name_or_email' => $user_name_or_email, ':provider_type' => 'DEFAULT'));
@@ -317,7 +320,8 @@ class UserModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT user_id, user_name, user_email, user_password_hash, user_active, user_account_type,
+        $sql = "SELECT user_id, user_name, user_title, user_first_name,
+            user_last_name, user_email, user_password_hash, user_active, user_account_type,
                        user_failed_logins, user_last_failed_login
                   FROM users
                  WHERE (user_name = :user_name OR user_email = :user_name)
@@ -346,7 +350,8 @@ class UserModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         // get real token from database (and all other data)
-        $query = $database->prepare("SELECT user_id, user_name, user_email, user_password_hash, user_active,
+        $query = $database->prepare("SELECT user_id, user_name, user_title, user_first_name,
+                                         user_last_name, user_email, user_password_hash, user_active,
                                           user_account_type,  user_has_avatar, user_failed_logins, user_last_failed_login
                                      FROM users
                                      WHERE user_id = :user_id

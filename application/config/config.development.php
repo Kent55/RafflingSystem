@@ -31,6 +31,7 @@ return array(
 	'PATH_CONTROLLER' => realpath(dirname(__FILE__).'/../../') . '/application/controller/',
 	'PATH_VIEW' => realpath(dirname(__FILE__).'/../../') . '/application/view/',
     'PATH_APP' => realpath(dirname(__FILE__)).'/',
+    'PATH_TASKS' => realpath(dirname(__FILE__)).'application/tasks/',
 	/**
 	 * Configuration for: Avatar paths
 	 * Internal path to save avatars. Make sure this folder is writable. The slash at the end is VERY important!

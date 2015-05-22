@@ -1,5 +1,3 @@
-
-
 <div class="container">
   <!-- echo out the system feedback (error and success messages) -->
 <?php $this->renderFeedbackMessages(); ?>
@@ -11,11 +9,10 @@
       <hr>
       
       <ul class="nav nav-stacked">
-		<li><a href="http://localhost/huge/dashboard">Dashboard</a></li>
-        <li><a href="javascript:;">Enter Raffle</a></li>
-        <li><a href="javascript:;">My Raffles</a></li>
-        <li><a href="javascript:;">Prizes I&#39;ve Won</a></li>
-        <li><a href="javascript:;">Deactivate My Account</a></li>
+		<li><a href="dashboard">Dashboard</a></li>
+        <li><a href="raffle">Raffle Listing</a></li>
+        <li><a href="raffle/myRaffles">My Raffles</a></li>
+        <li><a href="raffle/myPrizes">Prizes I&#39;ve Won</a></li>
       </ul>
       
       <hr>

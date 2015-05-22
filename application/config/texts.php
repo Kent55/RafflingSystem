@@ -39,7 +39,7 @@ return array(
 	"FEEDBACK_ACCOUNT_ACTIVATION_SUCCESSFUL" => "Activation was successful! You can now log in.",
 	"FEEDBACK_ACCOUNT_ACTIVATION_FAILED" => "Sorry, no such id/verification code combination here...",
 	"FEEDBACK_AVATAR_UPLOAD_SUCCESSFUL" => "Avatar upload was successful.",
-	"FEEDBACK_AVATAR_UPLOAD_WRONG_TYPE" => "Only JPEG and PNG files are supported.",
+	"FEEDBACK_AVATAR_UPLOAD_WRONG_TYPE" => "Only JPG files are supported.",
 	"FEEDBACK_AVATAR_UPLOAD_TOO_SMALL" => "Avatar source file's width/height is too small. Needs to be 100x100 pixel minimum.",
 	"FEEDBACK_AVATAR_UPLOAD_TOO_BIG" => "Avatar source file is too big. 5 Megabyte is the maximum.",
 	"FEEDBACK_AVATAR_FOLDER_DOES_NOT_EXIST_OR_NOT_WRITABLE" => "Avatar folder does not exist or is not writable. Please change this via chmod 775 or 777.",
@@ -71,4 +71,8 @@ return array(
 	"FEEDBACK_FACEBOOK_REGISTER_SUCCESSFUL" => "You have been successfully registered with Facebook.",
 	"FEEDBACK_FACEBOOK_OFFLINE" => "We could not reach the Facebook servers. Maybe Facebook is offline (that really happens sometimes).",
     "FEEDBACK_INVALID_SECURITY_TOKEN" => "Invalid security token.",
+    'FEEDBACK_RAFFLE_DOES_NOT_EXIST' => 'The desired raffle doesn\'t exist or may have expired, please click <a href="' . Config::get('URL') . 'raffle">here</a> to go back to the raffle listing.',
+    'FEEDBACK_RAFFLE_AMOUNT_EMPTY' => 'You must enter an amount.',
+    'FEEDBACK_RAFFLE_AMOUNT_NOT_INT' => 'The amount you enter must be a valid integer. For example: 1, 2, 3 etc.',
+    'FEEDBACK_REDIRECTING_TO_PAYPAL' => 'Thank you, we are now redirecting you to PayPal, please wait...'
 );

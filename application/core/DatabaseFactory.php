@@ -19,8 +19,8 @@
  *
  * Thanks! Big up, mate!
  */
-class DatabaseFactory
-{
+class DatabaseFactory {
+	
 	private static $factory;
 	private $database;
 

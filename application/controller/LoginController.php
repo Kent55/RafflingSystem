@@ -39,7 +39,7 @@ class LoginController extends Controller
             Request::post('user_name'), Request::post('user_password'), Request::post('set_remember_me_cookie')
         );
 
-        // check login status: if true, then redirect user login/showProfile, if false, then to login form again
+        // check login status: if true, then redirect user dashboard, if false, then to login form again
         if ($login_successful) {
             Redirect::to('dashboard');
         } else {
