@@ -180,6 +180,24 @@ class UserModel
         }
         return false;
     }
+	
+	public static function requestMyDetailsAccess($user_password) {
+		if (!csrf_token_is_valid() OR !csrf_token_is_recent()) {
+			Session::add('feedback_negative', Text::get('FEEDBACK_INVALID_SECURITY_TOKEN'));
+			return false;
+		}
+		else {
+			$result = self::getUserDataByUsername(Session::get('user_name'));
+			if (!password_verify($user_password, $result->user_password_hash)) {
+			Session::add('feedback_negative', 'You have entered an incorrect password.');
+			return false;
+			}
+			else {
+			Session::set('auth_view_details', true);
+			return true;
+			}
+		}
+	}
 
     /**
      * Edit the user's name, provided in the editing form
@@ -193,7 +211,7 @@ class UserModel
         if (!csrf_token_is_valid() OR !csrf_token_is_recent()) {
         
             Session::add('feedback_negative', Text::get('FEEDBACK_INVALID_SECURITY_TOKEN'));
-        
+			return false;
         }
         else {
             // new username same as old one ?

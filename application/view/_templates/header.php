@@ -36,7 +36,7 @@
 			<?= $this->user_name; ?> <span class="caret"></span></a>
           <ul id="g-account-menu" class="dropdown-menu" role="menu">
           <li><a href="<?php echo Config::get('URL'); ?>dashboard">My dashboard</a></li>
-            <li><a href="<?php echo Config::get('URL'); ?>login/showprofile">My details</a></li>
+            <li><a href="<?php echo Config::get('URL'); ?>login/myDetails">My details</a></li>
 			<li >
                         <a href="<?php echo Config::get('URL'); ?>login/editAvatar">Edit my avatar</a>
                     </li>

@@ -95,16 +95,23 @@ class LoginController extends Controller
      * Show user's PRIVATE profile
      * Auth::checkAuthentication() makes sure that only logged in users can use this action and see this page
      */
-    public function showProfile()
+    public function myDetails()
     {
         Auth::checkAuthentication();
-        $this->View->render('login/showProfile', array(
+        $this->View->render('login/myDetails', array(
             'user_name' => Session::get('user_name'),
             'user_email' => Session::get('user_email'),
             'user_gravatar_image_url' => Session::get('user_gravatar_image_url'),
             'user_avatar_file' => Session::get('user_avatar_file'),
-            'user_account_type' => Session::get('user_account_type')
+            'user_account_type' => Session::get('user_account_type'),
+            'is_authenticated' => Session::get('auth_view_details') ? true : false
         ));
+    }
+    
+    public function requestMyDetailsAccess_action() {
+        Auth::checkAuthentication();
+        UserModel::requestMyDetailsAccess(Request::post('auth_details_password'));
+        Redirect::to('login/myDetails');
     }
 
     /**
