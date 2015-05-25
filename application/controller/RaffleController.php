@@ -9,6 +9,10 @@ class RaffleController extends Controller
         parent::__construct();
         
         Auth::checkAuthentication(); // Every method requires logged in state, therefore put it in the constructor.
+        $access = new Acl_Handle();
+        if ($access->has_permission('can_enter_raffles') != true) {
+            exit('No Permission');
+        }
     }
     
     // Could probably make this a ternary operator, but leave it for now.

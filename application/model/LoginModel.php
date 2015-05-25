@@ -70,7 +70,7 @@ class LoginModel
 	 *
 	 * @return bool|mixed
 	 */
-	public static function validateAndGetUser($user_name, $user_password)
+	private static function validateAndGetUser($user_name, $user_password)
 	{
 		// get all data of that user (to later check if password and password_hash fit)
 		$result = UserModel::getUserDataByUsername($user_name);

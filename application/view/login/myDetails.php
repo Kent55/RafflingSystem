@@ -2,6 +2,7 @@
     <div class="box">
                 <!-- echo out the system feedback (error and success messages) -->
         <?php $this->renderFeedbackMessages(); ?>
+        
 <?php if ($this->is_authenticated) {
 ?>
         <h2>Your details</h2>

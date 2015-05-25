@@ -24,7 +24,7 @@ class RaffleModel
         }
         else
         {
-            foreach ($query->fetchAll() as $raffle)
+            foreach ($query->fetchAll() AS $raffle)
             {
                 @array_walk_recursive($raffle, 'self::XSSFilter');
             

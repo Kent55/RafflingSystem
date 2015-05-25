@@ -104,7 +104,8 @@ class LoginController extends Controller
             'user_gravatar_image_url' => Session::get('user_gravatar_image_url'),
             'user_avatar_file' => Session::get('user_avatar_file'),
             'user_account_type' => Session::get('user_account_type'),
-            'is_authenticated' => Session::get('auth_view_details') ? true : false
+            'is_authenticated' => Session::get('auth_view_details') ? true : false,
+            'auth_time_initial' => @Session::get('auth_view_details_time')
         ));
     }
     
