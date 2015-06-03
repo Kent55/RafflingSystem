@@ -1,45 +1,50 @@
-<div class="container">
-
-
-    <div class="login-page-box">
-        <div class="table-wrapper">
-
-            <!-- login box on left side -->
-            <div class="form-group col-lg-6">
-                   <!-- echo out the system feedback (error and success messages) -->
-                        <?php $this->renderFeedbackMessages(); ?>
-                <h2>Please sign in</h2><br />
-                <form action="<?php echo Config::get('URL'); ?>login/login" method="post">
-                
-                <div class="form-group">
-                    <label for="user_name">Username or email</label>
-                    <input type="text" name="user_name" class="form-control" id="user_name" placeholder="Username or email" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="user_password">Password</label>
-                    <input type="password" name="user_password" class="form-control" id="user_password" placeholder="Password" required>
-                </div>
-                <?php echo csrf_token_tag(); ?>
-                
-                <div class="checkbox">
-                    <label for="set_remember_me_cookie">
-                      <input type="checkbox" id="set_remember_me_cookie" class="remember-me-checkbox" name="set_remember_me_cookie"> Remember me
-                    </label>
-              </div>
-                <button type="submit" class="btn btn-info btn-large"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Sign in</button>
-                </form>
-                <br />
-                <div class="link-forgot-my-password">
-                    <a href="<?php echo Config::get('URL'); ?>login/requestPasswordReset" class="btn btn-link">I forgot my password</a>
-                </div>
-            </div>
-
-            <!-- register box on right side -->
-            <div class="register-box" style="float: right;">
-            <h2>Need an Account?</h2>
-                <a href="<?php echo Config::get('URL'); ?>login/register" class="btn btn-primary">Sign up now!</a>
-            </div>
-
-        </div>
-    </div>
-</div>
+<div id="login-container">
+	
+		<?php $this->renderFeedbackMessages(); ?>
+	<div id="login-header">
+		<h3>Login</h3>
+		
+	</div> <!-- /login-header -->
+	<div id="login-content" class="clearfix">
+	
+	<form action="<?php echo Config::get('URL'); ?>login/login" method="post">
+				<fieldset>
+					<div class="control-group">
+						<label class="control-label" for="user_name">Username or Email</label>
+						<div class="controls">
+							<input type="text" name="user_name" class="" id="user_name" placeholder="Username">
+						</div>
+					</div>
+                    <?php echo csrf_token_tag(); ?>
+					<div class="control-group">
+						<label class="control-label" for="user_password">Password</label>
+						<div class="controls">
+							<input type="password" name="user_password" class="" id="user_password" placeholder="Password">
+						</div>
+					</div>
+				</fieldset>
+				
+				<div id="remember-me" class="pull-left">
+					<input type="checkbox" name="remember" id="remember" />
+					<label id="remember-label" for="remember">Remember Me</label>
+				</div>
+				
+				<div class="pull-right">
+					<button type="submit" class="btn btn-warning btn-large">
+						Login
+					</button>
+				</div>
+			</form>
+			
+		</div> <!-- /login-content -->
+		
+		
+		<div id="login-extra">
+			
+			<p>Don't have an account? <a href="<?php echo Config::get('URL'); ?>login/register">Sign Up.</a></p>
+			
+			<p>Forgotten Password? <a href="<?php echo Config::get('URL'); ?>login/requestPasswordReset">Reset.</a></p>
+			
+		</div> <!-- /login-extra -->
+	
+</div> <!-- /login-wrapper -->

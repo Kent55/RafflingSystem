@@ -1,67 +1,190 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<meta charset="utf-8">
-		<title>Swindon Town Raffle System</title>
-		<meta name="generator" content="Bootply" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link href="<?php echo Config::get('URL'); ?>css/bootstrap.min.css" rel="stylesheet">
-		<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-		<!--[if lt IE 9]>
-			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-		<link href="<?php echo Config::get('URL'); ?>css/styles.css" rel="stylesheet">
-	</head>
-	<body>
-<!-- Header -->
-<div id="top-nav" class="navbar navbar-inverse navbar-static-top">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-toggle"></span>
-      </button>
-      <a class="navbar-brand" href="<?php echo Config::get('URL'); ?>dashboard">Swindon Town FC</a>
-    </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-	  
-	<?php if (Session::userIsLoggedIn()) : ?>
+  <head>
+    <meta charset="utf-8">
+    <title>Swindon Town FC - Online Raffle</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">    
+    
+    <link href="<?php echo Config::get('URL'); ?>/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo Config::get('URL'); ?>/css/bootstrap-responsive.min.css" rel="stylesheet">
+    
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+    <link href="<?php echo Config::get('URL'); ?>/css/font-awesome.min.css" rel="stylesheet">
+    
+    <link href="<?php echo Config::get('URL'); ?>/css/main.css" rel="stylesheet"> 
+    <link href="<?php echo Config::get('URL'); ?>/css/main-responsive.css" rel="stylesheet"> 
+    
+    <link href="<?php echo Config::get('URL'); ?>/css/pages/dashboard.css" rel="stylesheet">
+	<link href="<?php echo Config::get('URL'); ?>/css/pages/faq.css" rel="stylesheet">
+	<link href="<?php echo Config::get('URL'); ?>/css/pages/login.css" rel="stylesheet">
+	<link href="<?php echo Config::get('URL'); ?>/css/pages/plans.css" rel="stylesheet">
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/hint.css/1.3.2/hint.css">
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/hint.css/1.3.2/hint.min.css">
 	
-	  <li class="dropdown">
-          <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="javascript:void(null);">
-		  <?php if (isset($this->user_avatar_file)) { ?>
+    
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+	
+  </head>
+  
+  
+  
+  <body>
+	
+<div class="navbar navbar-fixed-top navbar-inverse">
+	
+	<div class="navbar-inner">
+		
+		<div class="container">
+			
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span> 				
+			</a>
+						<a class="brand" href="dashboard">Swindon Town FC</a>
+			<?php if (!Session::userIsLoggedIn()) : ?>
+			
+			<div class="nav-collapse">
+			
+				<ul class="nav pull-right">
+					
+					<li class="">
+						
+						<a href="javascript:;"><i class="icon-chevron-left"></i> Swindon Town FC Website</a>
+					</li>
+				</ul>
+				
+			</div> <!-- /nav-collapse -->
+			
+		</div> <!-- /container -->
+		
+	</div> <!-- /navbar-inner -->
+	
+</div> <!-- /navbar -->
+			<?php endif; ?>
+			<?php if (Session::userIsLoggedIn()) : ?>
+			<div class="nav-collapse">
+			
+				<ul class="nav pull-right">
+					<!--<li>
+						<a href="#"><span class="badge badge-warning">7</span></a>
+					</li>
+					
+					<li class="divider-vertical"></li>-->
+					
+					<li class="dropdown">
+						
+						<a data-toggle="dropdown" class="dropdown-toggle " href="#">
+							<?php if (isset($this->user_avatar_file)) { ?>
                                     <img class="avatar" width="20px;" height="20px;" src="<?= $this->user_avatar_file; ?>" />
                                 <?php } ?>
-			<?= $this->user_name; ?> <span class="caret"></span></a>
-          <ul id="g-account-menu" class="dropdown-menu" role="menu">
-          <li><a href="<?php echo Config::get('URL'); ?>dashboard">My dashboard</a></li>
-            <li><a href="<?php echo Config::get('URL'); ?>login/myDetails">My details</a></li>
-			<li >
-                        <a href="<?php echo Config::get('URL'); ?>login/editAvatar">Edit my avatar</a>
-                    </li>
-			
-				<li>
-                        <a href="<?php echo Config::get('URL'); ?>login/editusername">Edit my username</a>
-                    </li>
-                    <li>
-                        <a href="<?php echo Config::get('URL'); ?>login/edituseremail">Edit my email</a>
-                    </li>
-					
-			<li><a href="<?php echo Config::get('URL'); ?>login/logout">Sign out</a></li>
-          </ul>
-        </li>
-			<?php endif; ?>	
-                </ul>
+							<?= $this->user_name; ?> <b class="caret"></b>							
+						</a>
+						
+						<ul class="dropdown-menu">
+							<li>
+								<a href="account"><i class="icon-user"></i> Account Settings  </a>
+							</li>
+							
+							<li class="divider"></li>
+							
+							<li>
+								<a href="./"><i class="icon-off"></i> Logout</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
 				
-        </li>
-      </ul>
-    </div>
-  </div><!-- /container -->
-</div>
-<!-- /Header -->
+			</div> <!-- /nav-collapse -->
+			
+		</div> <!-- /container -->
+		
+	</div> <!-- /navbar-inner -->
+	
+</div> <!-- /navbar -->
 
+
+
+
+<div id="content">
+	
+	<div class="container">
 		
+		<div class="row">
+			
+			<div class="span3">
+				
+				<div class="account-container">
+				
+					<div class="account-avatar">
+					  <?php if (isset($this->user_avatar_file)) { ?>
+						<img src="<?= @$this->user_avatar_file; ?>" alt="" class="thumbnail" />
+						<?php } ?>
+					</div> <!-- /account-avatar -->
+					<div class="account-details">
+					
+						<span class="account-name"><?= @$this->user_name; ?></span>
+						
+						<span class="account-role">Administrator</span>
+						
+						<span class="account-actions">
+							<a href="account">My Account</a>
+						</span>
+					
+					</div> <!-- /account-details -->
+				
+				</div> <!-- /account-container -->
+				
+				<hr />
+				
+				<ul id="main-nav" class="nav nav-tabs nav-stacked">
+					<li <?= (@$this->page == 'dashboard') ? 'class="active"' : ''; ?>>
+						<a href="dashboard">
+							<i class="icon-home"></i>
+							Dashboard 		
+						</a>
+					</li>
+					
+					<li <?= (@$this->page == 'raffle_listing') ? 'class="active"' : ''; ?>>
+						<a href="raffle">
+							<i class="icon-th-list"></i>
+							Raffle Listing		
+						</a>
+					</li>
+
+					<li <?= (@$this->page == 'my_raffles') ? 'class="active"' : ''; ?>>
+						<a href="./account.html">
+							<i class="icon-user"></i>
+							My Raffles							
+						</a>
+					</li>
+					
+					<li <?= (@$this->page == 'faq') ? 'class="active"' : ''; ?>>
+						<a href="./faq.html">
+							<i class="icon-pushpin"></i>
+							FAQ	
+						</a>
+					</li>
+				</ul>	
+				
+				<hr />
+				
+				<div class="sidebar-extra">
+					<p></p>
+				</div> <!-- .sidebar-extra -->
+				
+				<br />
 		
+			</div> <!-- /span3 -->
+		  <?php endif; ?>
+		  
+		
+
 		
 		

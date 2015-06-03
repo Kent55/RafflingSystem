@@ -1,0 +1,4 @@
+<?php
+/**
+ * Online Users Class
+ */

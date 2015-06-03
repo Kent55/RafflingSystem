@@ -49,7 +49,7 @@
         return current((array)$row);
     }
     
-    private function get_role_name_from_id($role_id) {
+    public function get_role_name_from_id($role_id) {
         $sql = "SELECT role_name FROM roles WHERE id = :role_id LIMIT 1";
         $database = DatabaseFactory::getFactory()->getConnection();
         $data = $database->prepare($sql);
@@ -59,7 +59,17 @@
         return current((array)$row);
     }
     
-    private function get_user_roles() {
+    public function get_role_desc_from_id($role_id) {
+      $sql = "SELECT role_description FROM roles WHERE id = :role_id LIMIT 1";
+      $database = DatabaseFactory::getFactory()->getConnection();
+      $data = $database->prepare($sql);
+      $data->bindValue(':role_id', intval($role_id), PDO::PARAM_INT);
+      $data->execute();
+      $row = $data->fetch();
+      return current((array)$row);
+    }
+    
+    public function get_user_roles() {
         $sql = "SELECT * FROM user_roles WHERE user_id = :user_id ORDER BY add_date ASC";
         $database = DatabaseFactory::getFactory()->getConnection();
         $data = $database->prepare($sql);
@@ -72,21 +82,63 @@
         return $resp;
     }
     
-    private function get_all_roles($format = 'ids') {
+    public function get_all_roles($format = 'ids') {
         $format = strtolower($format);
         $sql = "SELECT * FROM roles ORDER BY role_name ASC";
         $database = DatabaseFactory::getFactory()->getConnection();
-        $data = $database->prepare($sql)->execute();
+        $data = $database->prepare($sql);
+        $data->execute();
         $resp = array();
         while ($row = $data->fetch()) {
             if ($format == 'full') {
-                $resp[] = array('id' => $row['id'], 'name' => $row['role_name']);
+                $resp[] = array('id' => $row->id, 'name' => $row->role_name, 'user_count' => $this->count_users_in_role($row->id));
             }
             else {
-                $resp[] = $row['id'];
+                $resp[] = $row->id;
             }
         }
         return $resp;
+    }
+    
+    public function count_users_in_role($role_id) {
+         $sql = "SELECT COUNT(user_id) FROM user_roles WHERE role_id = :role_id";
+         $database = DatabaseFactory::getFactory()->getConnection();
+         $data = $database->prepare($sql);
+         $data->bindValue(':role_id', intval($role_id), PDO::PARAM_INT);
+         $data->execute();
+         
+         $result = $data->fetch(PDO::FETCH_NUM);
+         
+         return current((array)$result);
+    }
+    
+    public function get_users_in_role($role_id) {
+      $sql = "SELECT user_id FROM user_roles WHERE role_id = :role_id";
+      $database = DatabaseFactory::getFactory()->getConnection();
+      $data = $database->prepare($sql);
+      $data->bindValue(':role_id', intval($role_id), PDO::PARAM_INT);
+      $data->execute();
+      $users = array();
+      while ($row = $data->fetch(PDO::FETCH_ASSOC)) {
+         $users[] = UserModel::getPublicProfileOfUser($row['user_id']);
+      }
+      return $users;
+    }
+    
+    public function does_role_exist($role_id) {
+         $sql = "SELECT COUNT(role_name) FROM roles WHERE id = :role_id LIMIT 1";
+         $database = DatabaseFactory::getFactory()->getConnection();
+         $data = $database->prepare($sql);
+         $data->bindValue(':role_id', intval($role_id), PDO::PARAM_INT);
+         $data->execute();
+         $result = $data->fetch(PDO::FETCH_NUM);
+         
+         if (current((array)$result) == 1) {
+            return true;
+         }
+         else {
+            return false;
+         }
     }
     
     private function get_all_perms($format = 'ids') {

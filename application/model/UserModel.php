@@ -53,7 +53,8 @@ class UserModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT user_id, user_name, user_title, user_first_name, user_last_name, user_email, user_active, user_has_avatar
+        $sql = "SELECT user_id, user_name, user_title, user_first_name, user_last_name, user_address_line_1,
+		user_address_line_2, user_town_city, user_postcode, user_county, user_email, user_active, user_has_avatar
                 FROM users WHERE user_id = :user_id LIMIT 1";
         $query = $database->prepare($sql);
         $query->execute(array(':user_id' => $user_id));
@@ -75,6 +76,23 @@ class UserModel
 
         return $user;
     }
+	
+	public static function get_settings_of_user($user_id) {
+		$database = DatabaseFactory::getFactory()->getConnection();
+		
+		$sql = "SELECT setting_key, setting_value FROM user_settings WHERE user_id = :user_id";
+		$query = $database->prepare($sql);
+		$query->execute(array(':user_id' => $user_id));
+		
+		$user = $query->fetch();
+		if (!$query->rowCount()) {
+			return false;
+		}
+		
+		@array_walk_recursive($user, 'self::XSSFilter');
+		
+		return $user;
+	}
 	
 	/**
 	* Passes value through htmlspecialchars, for XSS prevention.

@@ -25,7 +25,7 @@ class LoginController extends Controller
         if (LoginModel::isUserLoggedIn()) {
             Redirect::home();
         } else {
-            $this->View->render('login/index');
+            $this->View->render('login/index', array('page' => 'login'));
         }
     }
 

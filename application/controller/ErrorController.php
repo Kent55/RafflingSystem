@@ -20,6 +20,23 @@ class ErrorController extends Controller
     public function index()
     {
         header('HTTP/1.0 404 Not Found');
-        $this->View->render('error/index');
+        $this->View->render('error/index', array(
+            'user_name' => Session::get('user_name'),
+            'user_email' => Session::get('user_email'),
+            'user_gravatar_image_url' => Session::get('user_gravatar_image_url'),
+            'user_avatar_file' => Session::get('user_avatar_file'),
+            'user_account_type' => Session::get('user_account_type')
+        ));
+    }
+    
+    public function no_permission() {
+        Auth::checkAuthentication();
+        $this->View->render('error/no_permission', array(
+            'user_name' => Session::get('user_name'),
+            'user_email' => Session::get('user_email'),
+            'user_gravatar_image_url' => Session::get('user_gravatar_image_url'),
+            'user_avatar_file' => Session::get('user_avatar_file'),
+            'user_account_type' => Session::get('user_account_type')
+        ));
     }
 }
