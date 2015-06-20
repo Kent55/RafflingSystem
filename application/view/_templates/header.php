@@ -131,7 +131,29 @@
 					
 						<span class="account-name"><?= @$this->user_name; ?></span>
 						
-						<span class="account-role">Administrator</span>
+						<span class="account-role"><small><strong>Roles: </strong><?php
+							// Defo needs to either be in controller or model, but 4 now
+							// it'll have to do.
+
+							$u_r = PermissionsModel::get()->getUserRoles();
+							$r_n = array();
+							foreach ($u_r AS $r) {
+								$r_n[] = PermissionsModel::get()->getRoleNameFromId($r);
+							}
+							$i = 0;
+							$len = count($r_n);
+
+							foreach ($r_n AS $r) {
+								if ($r == end($r_n)) {
+									echo $r;
+								}
+								else {
+									echo $r . ', ';
+								}
+							}
+						?>
+					</small>
+						</span>
 						
 						<span class="account-actions">
 							<a href="account">My Account</a>

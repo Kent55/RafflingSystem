@@ -46,5 +46,17 @@
     public function getUsersInRole($role_id) {
         return $this->acl->get_users_in_role($role_id);
     }
+    
+    public function getRolePerms($role_id) {
+      return $this->acl->get_role_perms($role_id);
+    }
+    
+    public function getAllPerms($format = 'ids') {
+      return $this->acl->get_all_perms($format);
+    }
+
+    public function getUserRoles() {
+        return $this->acl->get_user_roles();
+    }
  }
  

@@ -141,10 +141,11 @@
          }
     }
     
-    private function get_all_perms($format = 'ids') {
+    public function get_all_perms($format = 'ids') {
         $sql = "SELECT * FROM permissions ORDER BY perm_name ASC";
         $database = DatabaseFactory::getFactory()->getConnection();
-        $data = $database->prepare($sql)->execute();
+        $data = $database->prepare($sql);
+        $data->execute();
         $resp = array();
         while ($row = $data->fetch(PDO::FETCH_ASSOC)) {
             if ($format == 'full') {
@@ -157,9 +158,9 @@
         return $resp;
     }
     
-    private function get_role_perms($role) {
+    public function get_role_perms($role) {
         if (is_array($role)) {
-            $sql = "SELECT * FROM role_perms WHERE role_id IN (" . implode(',', array_fill(0, count($role), '?')) . ")
+            $sql = "SELECT * FROM role_perms WHERE role_id IN (" . implode(', ', array_fill(0, count($role), '?')) . ")
                     ORDER BY id ASC";
         }
         else {
@@ -167,7 +168,7 @@
         }
         
         $database = DatabaseFactory::getFactory()->getConnection();
-        if ($sql) {
+        if (isset($sql)) {
             $data = $database->prepare($sql);
             foreach ($role AS $k => $r) {
                 $data->bindValue(($k + 1), $r);
@@ -176,7 +177,7 @@
         }
         else {
             $data = $database->prepare($sql2);
-            $data->bindValue(':role_id', intval($role_id), PDO::PARAM_INT);
+            $data->bindValue(':role', intval($role), PDO::PARAM_INT);
             $data->execute();
         }
         

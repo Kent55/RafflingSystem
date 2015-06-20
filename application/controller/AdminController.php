@@ -72,7 +72,9 @@
                     'user_account_type' => Session::get('user_account_type'),
                     'role_name' => PermissionsModel::get()->getRoleNameFromId($id),
                     'role_desc' => PermissionsModel::get()->getRoleDescFromId($id),
-                    'members' => PermissionsModel::get()->getUsersInRole($id), 
+                    'members' => PermissionsModel::get()->getUsersInRole($id),
+                    'rPerms' => PermissionsModel::get()->getRolePerms($id),
+                    'aPerms' => PermissionsModel::get()->getAllPerms('full'),
                     ));
                 }
                 else {
@@ -93,6 +95,12 @@
                 ));
             }
         }
+    }
+    
+    public function editGroup_Submit() {
+      Auth::checkAuthentication();
+      AdminModel::editUsergroup(Request::post(''));
+      Redirect::to(Config::get('URL') . 'admin/usergroups');
     }
  }
  
